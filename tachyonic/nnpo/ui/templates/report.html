@@ -1,0 +1,49 @@
+<form class="form-inline" method="post" role="form" data-url="{{SITE}}/nnpo/reports">
+    <div class="pull-left">
+        <select class="form-control" name="server">
+        {% for n in servers %}
+            {% if server == n['id'] %}
+            <option value="{{ n['id'] }}" selected>{{ n['name'] }}</option>
+            {% else %}
+            <option value="{{ n['id'] }}">{{ n['name'] }}</option>
+            {% endif %}
+        {% endfor %}
+        </select>
+    </div>
+    <div class="pull-right">
+        From: <input type="text" name="from_date" id="from_date" value="{{ from_date }}">
+        To: <input type="text" name="to_date" id="to_date" value="{{ to_date }}">
+        <select class="form-control" name="report">
+            <option value="h" {% if report == 'h' %} selected {% endif %}>Hourly</option>
+            <option value="d" {% if report == 'd' %} selected {% endif %}>Daily</option>
+            <option value="w" {% if report == 'w' %} selected {% endif %}>Weekly</option>
+            <option value="m" {% if report == 'm' %} selected {% endif %}>Monthly</option>
+        </select>
+        <input type="submit" class="btn btn-success" value="Generate">
+    </div>
+
+</form>
+<div style="width:100%;clear:both;"></div>
+<div id="sheets">
+    <ul>
+        {% for sheet in sheets %}
+        <li><a href="#{{ sheet.replace(' ','_') }}"> {{ sheet }}</a></li>
+        {% endfor %}
+    </ul>
+    <div style="overflow: scroll; width: 100%;">
+    {% for sheet in sheets %}
+    <div id="{{ sheet.replace(' ','_') }}">
+        {{ sheets[sheet] }}
+    </div>
+    {% endfor %}
+    </div>
+</div>
+<script>
+$( function() {
+	  $( "#sheets" ).tabs();
+} );
+$( function() {
+	$( "#from_date" ).datepicker({ dateFormat: 'yy-mm-dd' });
+	$( "#to_date" ).datepicker({ dateFormat: 'yy-mm-dd' });
+} );
+</script>

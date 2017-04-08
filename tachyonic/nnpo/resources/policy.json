@@ -1,0 +1,14 @@
+{
+    "tachyonic:public": "True",
+    "is_root": "$context.roles:Root",
+    "is_ops": "$context.roles:Operations",
+    "is_admin": "$context.roles:Administrator",
+    "is_support": "$context.roles:Support",
+    "is_accounts": "$context.roles:AccountManager",
+    "is_billing": "$context.roles:Billing",
+    "is_customer": "$context.roles:Customer",
+    "is_user": "$context.login:True",
+    "tachyonic:login": "Rule:is_user",
+    "nnpo:admin": "Rule:is_root or Rule:is_ops",
+    "nnpo:customer": "Rule:is_root or Rule:is_ops or Rule:is_admin or Rule:is_support"
+}

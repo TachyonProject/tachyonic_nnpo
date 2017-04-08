@@ -1,0 +1,55 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th>Otype</th>
+            <th>Eids</th>
+            <th>Datalist</th>
+            {% if not readonly %}
+            <th>&nbsp;</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody id="rows">
+    </tbody>
+</table>
+<script>
+    function add_otype() {
+        var rows = document.getElementById('rows');
+        item = "<tr>";
+        item = item + "<td><input class=\"form-control\" type=\"text\" value=\"\" name=\"otype\"></td>";
+        item = item + "<td><textarea class=\"form-control\" rows=\"10\" name=\"eids\"></textarea></td>";
+        item = item + "<td><textarea class=\"form-control\" rows=\"10\" name=\"datalist\"></textarea></td>";
+        item = item + "<td><button class=\"btn btn-warning\" onclick=\"$(this).parent().parent().remove();\">Remove</button></td>";
+        item = item + "</tr>";
+        rows.innerHTML = rows.innerHTML + item;
+    }
+    $( document ).ready(function() {
+        var t = document.getElementById('template').value;
+        var rows = document.getElementById('rows');
+        var t = String(t).split("\n")
+        for (var mon in t) {
+            o = String(t[mon]).split('=')
+            otype = o[0]
+            eids = String(o[1]).replace(/,/g,'\n')
+            datalist = String(o[2]).replace(/,/g,'\n')
+            item = "<tr>";
+            item = item + "<td><input class=\"form-control\" {% if readonly %} readonly {% endif %} type=\"text\" value=\"" + otype  + "\" name=\"otype\"></td>";
+            item = item + "<td><textarea class=\"form-control\" {% if readonly %} readonly {% endif %} rows=\"10\" name=\"eids\">" + eids + "</textarea></td>";
+            item = item + "<td><textarea class=\"form-control\" {% if readonly %} readonly {% endif %} rows=\"10\" name=\"datalist\">" + datalist + "</textarea></td>";
+            {% if not readonly %}
+            item = item + "<td><button class=\"btn btn-warning\" onclick=\"$(this).parent().parent().remove();\">Remove</button></td>";
+            {% endif %}
+            item = item + "</tr>";
+            rows.innerHTML = rows.innerHTML + item;
+        };
+        {% if not readonly %}
+        item = "<tr>";
+        item = item + "<td>&nbsp;</td>";
+        item = item + "<td>&nbsp;</td>";
+        item = item + "<td>&nbsp;</td>";
+        item = item + "<td><button class=\"btn btn-success\" onclick=\"add_otype();\">Add</button></td>";
+        item = item + "</tr>";
+        rows.innerHTML = rows.innerHTML + item;
+        {% endif %}
+    });
+</script>
